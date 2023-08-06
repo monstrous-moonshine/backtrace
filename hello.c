@@ -55,17 +55,22 @@ __cyg_profile_func_enter(void *this_fn, void *call_site) {
 }
 
 void say_hello() {
-#if 0
-start:
-    printf("%s: %p\n", __func__, &&start);
-#endif
     printf("Hello, world!\n");
 }
 
+void dummy_fn() {
+    say_hello();
+}
+
 int main() {
-#if 0
+#if defined(PRINT_FUNCADDR)
+    /* this corresponds to the address passed to __cyg_profile_func_enter() */
+    printf("%s: %p\n", __func__, main);
+#elif defined(PRINT_STARTADDR)
+    /* this corresponds to the address obtained from backtrace(), and is
+     * slightly larger because it skips over the function prolog */
 start:
     printf("%s: %p\n", __func__, &&start);
 #endif
-    say_hello();
+    dummy_fn();
 }

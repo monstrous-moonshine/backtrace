@@ -19,6 +19,7 @@ get_sym(const char *entry) {
     char *plus = strchr(paren + 1, '+');
     if (!plus) return NULL;
     int toklen = plus - paren - 1;
+    if (toklen == 0) return strdup("unknown");
     char *tok = malloc(toklen + 1);
     memcpy(tok, paren + 1, toklen);
     tok[toklen] = '\0';
